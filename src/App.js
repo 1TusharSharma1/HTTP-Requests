@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import MoviesList from './components/MoviesList';
 import './App.css';
 function App() {
+
+  //Fetch Requests
+
 const [movies, setMovies] = useState([]);
 
   function fetchMoviesHandler(){
