@@ -6,10 +6,13 @@ function App() {
   //Fetch Requests
 
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   async function fetchMoviesHandler() {
+    setLoading(true);
     const response = await fetch("https://swapi.dev/api/films");
-    const data = await response.json(); //Added Async-Await calls instead of .then command  
+    //Added Async-Await calls instead of .then command
+    const data = await response.json();
     const transformedMovies = data.results.map((movieData) => {
       return {
         id: movieData.episode_id,
@@ -19,15 +22,18 @@ function App() {
       };
     });
     setMovies(transformedMovies);
+    setLoading(false);
+
   }
   return (
     <React.Fragment>
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
-      <section>
-        <MoviesList movies={movies} />
-      </section>
+      <section>{!loading && movies.length>0 && <MoviesList movies={movies}/>}
+      {!loading && movies.length===0 && <p>Please fetch the movies :P </p>}
+      {loading && <p>Loading...</p>}
+       </section>
     </React.Fragment>
   );
 }
